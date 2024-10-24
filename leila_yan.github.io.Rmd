@@ -1,0 +1,15 @@
+---
+title: "leila_yan.github.io"
+author: "Leila Yan"
+date: "2024-10-24"
+output: html_document
+---
+
+Load libraries
+```{r}
+
+```
+
+## Problem 1
+
+## Problem 2
