@@ -1,0 +1,81 @@
+---
+title: "My Resume"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Education
+- Bellevue Christian High School, Bellevue WA 2015 – 2019
+
+- Smith College, Northampton MA 2019-2023
+  BA in Neuroscience and Chemistry
+  GPA 3.96
+
+- Columbia University, New York NY  2023-2025
+  MPH in Epidemiology and Applied Biostatistics
+  GPA 3.77
+  Relevant courses: Data Science, Applied Regression, Introduction to Mathematical Statistics, Statistical Computing with SAS, Analysis od Categorical Data, Application of Epidemiological Research Methods, Relational Databases and SQL Programming for Research and Data     Science 
+
+
+## Professional Experience
+- **New York Presbyterian Hospital**, New York, NY  
+  Data Analyst, 11/2023 - present  
+  - Utilize SAS to clean, manipulate, and analyze hernia surgical outcome data, focusing on operative methods and recurrence rates
+  - Perform data entry and management of pre-surgical and demographic information using REDCap
+  - Assist in the preparation and writing of abstracts for presentation and publication
+
+- **Columbia University Mailman School of Public Health**, New York, NY  
+  Epidemiology Research Intern, 06/2024 – 09/2024  
+  - Participate in the LEGACY project, studying the impact of early childhood factors and exposures on girls' pubertal timing and cancer risk
+  - Investigate the association between environmental Per- and Polyfluoroalkyl Substances (PFAS) and cancer incidences using an ecological study design
+  - Conduct data cleaning, manipulation, and analysis using SAS and R Studio
+  - Present results to the team and contribute to manuscript writing
+
+- **Columbia University Institute of Human Nutrition**, New York, NY  
+  Data Analysis Research Intern, 05/2024 - present  
+  - Participate in MESA and CM projects, investigating eating patterns and nutritional contents’ influence on sleep and cardiometabolic risk
+  - Conduct data analysis and coding using SAS and contribute to manuscript writing
+
+- **Columbia University Vagelos College of Physicians and Surgeons**, New York, NY  
+  State Pre-College Enrichment Program (S-PREP)  
+  Facilitator, 11/2023 - 06/2024  
+  - Offers free high school and college-level science classes to help underrepresented students succeed in STEM
+  - Facilitated and assisted weekly physics class on Saturdays
+
+- **Smith College Chemistry Department**, Northampton, MA  
+  Queeney's Lab Research Assistant, 06/2021 - 01/2023  
+  - Assisted in PVDMA polymer synthesis, thin film fabrication, and the troubleshooting process
+  - Used NMR and IR spectroscopy to characterize polymers
+
+- **Smith College Residence Life**, Northampton, MA  
+  Resident Advisor, 08/2021 - 05/2023  
+  - Facilitated intentional conversations with residents and mediated conflicts
+  - Held biweekly community meetings and open hours
+
+
+## Skills
+- Computer related: Microsoft Suite, R Studio, Python, SAS, SQL
+    
+- Healthcare related: EHR, REDCap, Epic, Medical scribe training certificate
+
+- Language: English (Fluent), Chinese (Native), French (Beginner)
+
+## Volunteer 
+
+- **Cooley Dickinson Hospital**, Northampton, MA  
+  Volunteer, 02/2020 - 05/2023  
+  - Rounded patients in the emergency rooms and answered call bells
+  - Assisted ER staff by communicating with family members, running errands, and transporting patients
+  - Prepared and cleaned rooms in the emergency department and gave directions to patients and family members
+
+- **Crisis Text Line**, Online  
+  Volunteer, 10/2023 - 05/2024  
+  - Supported texters who are in distress and active crisis through text messages
+
+
+- **Homework House**, Holyoke, MA  
+  Tutor, 02/2022 - 05/2023  
+  - Tutored elementary school students from low-income households in in math, English, and science subjects
+  

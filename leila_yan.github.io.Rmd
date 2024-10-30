@@ -1,8 +1,10 @@
 ---
-title: "leila_yan.github.io"
-author: "Leila Yan"
-date: "2024-10-24"
-output: html_document
+title: "Leila Yan's website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
 ---
 
 Load libraries
@@ -12,4 +14,10 @@ Load libraries
 
 ## Problem 1
 
+Links
+* [Github](https://github.com/leilaaayan?tab=repositories)
+* [LinkedIn](https://www.linkedin.com/in/leila-yan-07472823b/)
+* [Email](leilayan86@gmail.com)
+
 ## Problem 2
+
