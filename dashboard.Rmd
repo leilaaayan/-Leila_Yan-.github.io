@@ -1,0 +1,73 @@
+---
+title: "Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(flexdashboard)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+#scatterplot
+instacart %>%
+plot_ly(x = ~days_since_prior_order,
+        y = ~reordered,
+        type = 'scatter',
+        mode = 'markers',
+        marker = list(opacity = 0.6, size = 5)) %>%
+  layout(title = "Scatter Plot of Days Since Prior Order vs Reordered",
+         xaxis = list(title = "Days Since Prior Order"),
+         yaxis = list(title = "Reordered (1 = Yes, 0 = No)"))
+
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+#boxplot
+instacart %>%
+plot_ly(x = ~order_dow,
+        y = ~add_to_cart_order,
+        color = ~factor(order_dow),
+        type = 'box',
+        colors = "viridis") %>%
+  layout(title = "Distribution of Add-to-Cart Order by Day of the Week",
+         xaxis = list(title = "Day of the Week"),
+         yaxis = list(title = "Add to Cart Order"))
+```
+
+### Chart C
+
+```{r}
+#barplot
+barplot <- instacart %>%
+  group_by(department) %>%
+  summarize(avg_days_since_prior_order = mean(days_since_prior_order, na.rm = TRUE))
+
+
+barplot %>%
+  plot_ly(x = ~department,
+        y = ~avg_days_since_prior_order,
+        type = 'bar',
+        color = ~department) %>%
+  layout(title = "Average Days Since Prior Order by Department",
+         xaxis = list(title = "Department"),
+         yaxis = list(title = "Average Days Since Prior Order"))
+```
+
