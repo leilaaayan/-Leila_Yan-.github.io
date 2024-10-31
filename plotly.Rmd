@@ -6,7 +6,6 @@ output:
     toc_float: true
 ---
 We're going to look at Instacart data.
-
 ```{r}
 # Load datasets
 library(tidyverse)

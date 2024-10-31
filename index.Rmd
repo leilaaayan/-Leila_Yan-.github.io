@@ -6,6 +6,7 @@ output:
     toc_float: true
 ---
 
+
 # Leila's website
 ![](images/me.jpg)
 Hello, and welcome! I’m Leila Yan, a second-year student at Columbia University’s Mailman School of Public Health, majoring in epidemiology and biostatistics. My passion lies in understanding chronic diseases and advancing clinical epidemiology, with a commitment to promoting health equity through data-driven insights and addressing research gaps. Through my coursework, I’ve developed expertise in using SAS, R, and Python to manipulate and analyze complex datasets.

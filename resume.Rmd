@@ -5,7 +5,6 @@ output:
     toc: true
     toc_float: true
 ---
-
 ## Education
 - Bellevue Christian High School, Bellevue WA 2015 – 2019
 
