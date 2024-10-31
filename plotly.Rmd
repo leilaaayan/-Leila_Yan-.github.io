@@ -16,7 +16,6 @@ library(plotly)
 
 ```{r}
 data(instacart)
-
 instacart = 
   instacart %>%
   janitor::clean_names() %>%
@@ -41,20 +40,6 @@ plot_ly(x = ~days_since_prior_order,
          yaxis = list(title = "Reordered (1 = Yes, 0 = No)"))
 
 ```
-
-```{r}
-instacart %>%
-plot_ly(x = ~order_dow,
-        y = ~order_hour_of_day,
-        type = 'scatter',
-        mode = 'markers',
-        color = ~factor(order_dow),
-        marker = list(opacity = 0.6, size = 5)) %>%
-  layout(title = "Scatter Plot of Order Day of Week vs Order Hour of Day",
-         xaxis = list(title = "Day of the Week"),
-         yaxis = list(title = "Order Hour of Day"))
-```
-
 
 
 ## boxplot
