@@ -29,6 +29,15 @@ instacart =
 
 ## scatterplot
 ```{r}
+instacart %>%
+plot_ly(x = ~days_since_prior_order,
+        y = ~reordered,
+        type = 'scatter',
+        mode = 'markers',
+        marker = list(opacity = 0.6, size = 5)) %>%
+  layout(title = "Scatter Plot of Days Since Prior Order vs Reordered",
+         xaxis = list(title = "Days Since Prior Order"),
+         yaxis = list(title = "Reordered (1 = Yes, 0 = No)"))
 
 ```
 
