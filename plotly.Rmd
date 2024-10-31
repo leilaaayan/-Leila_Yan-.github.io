@@ -20,20 +20,47 @@ data(instacart)
 instacart = 
   instacart %>%
   janitor::clean_names() %>%
-   select(department, reordered, order_hour_of_day, days_since_prior_order, order_dow, add_to_cart_order)
+  filter(department %in% c("produce", "frozen", "dairy eggs", "pantry", "household")) %>%
+  filter(order_hour_of_day >= 8 & order_hour_of_day <= 22) %>%
+  select(department, reordered, order_hour_of_day, days_since_prior_order, order_dow, add_to_cart_order) 
 
 ```
-
-# Plotly plots
 ## scatterplot
-To investigate if there are certain hours when people tend to place repeat orders sooner (or after a longer period).
 ```{r}
 
-
 ```
 
+
 ## boxplot
+To investigate how the add-to-cart order varies across different days of the week. Specifically, it can help answer questions like:
+```{r}
+instacart %>%
+plot_ly(x = ~order_dow,
+        y = ~add_to_cart_order,
+        color = ~factor(order_dow),
+        type = 'box',
+        colors = "viridis") %>%
+  layout(title = "Distribution of Add-to-Cart Order by Day of the Week",
+         xaxis = list(title = "Day of the Week"),
+         yaxis = list(title = "Add to Cart Order"))
+```
 
 
 ## barplot
+To investigate which departments tend to have shorter or longer gaps between orders. This could reveal if certain types of products are purchased more frequently.
+```{r}
+barplot <- instacart %>%
+  group_by(department) %>%
+  summarize(avg_days_since_prior_order = mean(days_since_prior_order, na.rm = TRUE))
+
+
+barplot %>%
+  plot_ly(x = ~department,
+        y = ~avg_days_since_prior_order,
+        type = 'bar',
+        color = ~department) %>%
+  layout(title = "Average Days Since Prior Order by Department",
+         xaxis = list(title = "Department"),
+         yaxis = list(title = "Average Days Since Prior Order"))
+```
 
