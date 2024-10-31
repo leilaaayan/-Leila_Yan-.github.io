@@ -25,6 +25,8 @@ instacart =
   select(department, reordered, order_hour_of_day, days_since_prior_order, order_dow, add_to_cart_order) 
 
 ```
+
+
 ## scatterplot
 ```{r}
 
