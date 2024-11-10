@@ -10,7 +10,7 @@ navbar:
     - icon: fa-envelope fa-lg
       href: mailto:<leilayan86@gmail.com>
     - icon: fa-github fa-lg
-      href: http://github.com/leilaaayan/
+      href: https://leilaayan.github.io/
 output:
   html_document:
     theme: cerulean
