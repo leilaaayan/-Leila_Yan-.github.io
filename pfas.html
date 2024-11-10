@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>PFAS and Cancer Incidence</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="resume.html">Resume</a>
+</li>
+<li>
+  <a href="plotly.html">Plotly</a>
+</li>
+<li>
+  <a href="mailto:&lt;leilayan86@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/leilaaayan/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PFAS and Cancer Incidence</h1>
+
+</div>
+
+
+<p>In this R Markdown report, we analyze and compare three methods for
+quantifying Per- and Polyfluoroalkyl Substances (PFAS) levels across the
+52 U.S. states. Our objective is to visualize the relationship between
+cancer incidence and varying pollution levels, enabling a clearer
+understanding of the geographic distribution and potential health
+impacts of PFAS exposure.</p>
+<div id="coding" class="section level2">
+<h2>Coding</h2>
+<p>Read in the three datasets</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(readxl)
+
+# US states cancer incidence dataset
+fifitystates_df = read_excel(&quot;Excel_50 states.xlsx&quot;) %&gt;%
+  janitor::clean_names()
+fifitystates_df</code></pre>
+<pre><code>## # A tibble: 52 × 11
+##    state    year ir    male_ir female_ir white_ir black_ir alan_ir api_ir his_ir
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; 
+##  1 alabama  2021 422   464.9   393.8     418.7    431.8    90.3    243.1  230.4 
+##  2 alaska   2021 423   453.5   403.1     416      362.8    591.29… 251.9  297.5 
+##  3 arizona  2021 368   383.6   359.6     379.7    334.9    269.3   212.5  314.2 
+##  4 arkans…  2021 430   450.5   420.4     433.6    436.8    169.8   264.7  327.7 
+##  5 califo…  2021 397   416.1   389.4     436.6    415.8    392.6   305.2  328.1 
+##  6 colora…  2021 381   385     386.8     385.2    385.7    367.5   288.6… 348.5 
+##  7 connec…  2021 49    531.9   474.2     502.8    502.7    408.4   278.8  440.7 
+##  8 delawa…  2021 445   467.3   432.9     458.4    436.1    N/A     220.8  326.2 
+##  9 distri…  2021 430   455.9   420.6     365.7    487      N/A     208.3  312.7 
+## 10 florida  2021 465   495.4   446.4     497.9    423.5    367.9   270.1… 383.7 
+## # ℹ 42 more rows
+## # ℹ 1 more variable: state_zipcode &lt;chr&gt;</code></pre>
+<pre class="r"><code># US zipcode dataset
+zipcode_df = read_excel (&quot;US_FIPS_Codes.xls&quot;) %&gt;%
+  janitor::clean_names()
+zipcode_df</code></pre>
+<pre><code>## # A tibble: 3,142 × 4
+##    state   county_name state_zipcode fips_county
+##    &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;         &lt;chr&gt;      
+##  1 Alabama Autauga     01            001        
+##  2 Alabama Baldwin     01            003        
+##  3 Alabama Barbour     01            005        
+##  4 Alabama Bibb        01            007        
+##  5 Alabama Blount      01            009        
+##  6 Alabama Bullock     01            011        
+##  7 Alabama Butler      01            013        
+##  8 Alabama Calhoun     01            015        
+##  9 Alabama Chambers    01            017        
+## 10 Alabama Cherokee    01            019        
+## # ℹ 3,132 more rows</code></pre>
+<pre class="r"><code># PFAS level dataset
+pfas_df= read_csv (&quot;pfas_county_073124.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;%
+  mutate(state_zipcode= substr(county, 1, 2))</code></pre>
+<pre><code>## Rows: 2038 Columns: 36
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (9): County, detected, med_gMRL_PFBS, med_gMRL_PFHpA, med_gMRL_PFHxS, m...
+## dbl (27): n_geMRL, n_samples, MRL_ngl_PFBS, MRL_ngl_PFHpA, MRL_ngl_PFHxS, MR...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>pfas_df</code></pre>
+<pre><code>## # A tibble: 2,038 × 37
+##    county n_ge_mrl n_samples detected med_g_mrl_pfbs med_g_mrl_pf_hp_a
+##    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;          &lt;chr&gt;            
+##  1 01001         3       318 Yes      No             No               
+##  2 01003         0       732 No       No             No               
+##  3 01007         0        48 No       No             No               
+##  4 01009        34       480 Yes      No             No               
+##  5 01013         0        48 No       No             No               
+##  6 01015         0       240 No       No             No               
+##  7 01017         0        96 No       No             No               
+##  8 01019        96       984 Yes      No             No               
+##  9 01021         2       132 Yes      No             No               
+## 10 01027         0        96 No       No             No               
+## # ℹ 2,028 more rows
+## # ℹ 31 more variables: med_g_mrl_pf_hx_s &lt;chr&gt;, med_g_mrl_pfna &lt;chr&gt;,
+## #   med_g_mrl_pfoa &lt;chr&gt;, med_g_mrl_pfos &lt;chr&gt;, mrl_ngl_pfbs &lt;dbl&gt;,
+## #   mrl_ngl_pf_hp_a &lt;dbl&gt;, mrl_ngl_pf_hx_s &lt;dbl&gt;, mrl_ngl_pfna &lt;dbl&gt;,
+## #   mrl_ngl_pfoa &lt;dbl&gt;, mrl_ngl_pfos &lt;dbl&gt;, median_pfbs &lt;dbl&gt;,
+## #   median_pf_hp_a &lt;dbl&gt;, median_pf_hx_s &lt;dbl&gt;, median_pfna &lt;dbl&gt;,
+## #   median_pfoa &lt;dbl&gt;, median_pfos &lt;dbl&gt;, q1_pfbs &lt;dbl&gt;, q1_pf_hp_a &lt;dbl&gt;, …</code></pre>
+<p>Merge the three datasets</p>
+<pre class="r"><code># left join keeps everything in the dataset that comes first 
+merged_df_1 = 
+  left_join(pfas_df, fifitystates_df,  by = &quot;state_zipcode&quot;)
+
+#check the new dataset&#39;s variables‘ names
+names(merged_df_1)</code></pre>
+<pre><code>##  [1] &quot;county&quot;            &quot;n_ge_mrl&quot;          &quot;n_samples&quot;        
+##  [4] &quot;detected&quot;          &quot;med_g_mrl_pfbs&quot;    &quot;med_g_mrl_pf_hp_a&quot;
+##  [7] &quot;med_g_mrl_pf_hx_s&quot; &quot;med_g_mrl_pfna&quot;    &quot;med_g_mrl_pfoa&quot;   
+## [10] &quot;med_g_mrl_pfos&quot;    &quot;mrl_ngl_pfbs&quot;      &quot;mrl_ngl_pf_hp_a&quot;  
+## [13] &quot;mrl_ngl_pf_hx_s&quot;   &quot;mrl_ngl_pfna&quot;      &quot;mrl_ngl_pfoa&quot;     
+## [16] &quot;mrl_ngl_pfos&quot;      &quot;median_pfbs&quot;       &quot;median_pf_hp_a&quot;   
+## [19] &quot;median_pf_hx_s&quot;    &quot;median_pfna&quot;       &quot;median_pfoa&quot;      
+## [22] &quot;median_pfos&quot;       &quot;q1_pfbs&quot;           &quot;q1_pf_hp_a&quot;       
+## [25] &quot;q1_pf_hx_s&quot;        &quot;q1_pfna&quot;           &quot;q1_pfoa&quot;          
+## [28] &quot;q1_pfos&quot;           &quot;q3_pfbs&quot;           &quot;q3_pf_hp_a&quot;       
+## [31] &quot;q3_pf_hx_s&quot;        &quot;q3_pfna&quot;           &quot;q3_pfoa&quot;          
+## [34] &quot;q3_pfos&quot;           &quot;n_med_g_mrl&quot;       &quot;pfas_cat&quot;         
+## [37] &quot;state_zipcode&quot;     &quot;state&quot;             &quot;year&quot;             
+## [40] &quot;ir&quot;                &quot;male_ir&quot;           &quot;female_ir&quot;        
+## [43] &quot;white_ir&quot;          &quot;black_ir&quot;          &quot;alan_ir&quot;          
+## [46] &quot;api_ir&quot;            &quot;his_ir&quot;</code></pre>
+<pre class="r"><code>#check how many distinct datasets
+n_distinct(merged_df_1$state)</code></pre>
+<pre><code>## [1] 52</code></pre>
+<p>Method 1: Take the median of all the variables that start with a
+“median” prefix, eg. median_pfbs Group by state code Combine all the
+county codes for each state and then calculate the median</p>
+<pre class="r"><code>state_medians =
+  merged_df_1 %&gt;%
+  group_by(state) %&gt;%
+  summarise(across(starts_with(&quot;median&quot;), median, na.rm = TRUE))</code></pre>
+<pre><code>## Warning: There was 1 warning in `summarise()`.
+## ℹ In argument: `across(starts_with(&quot;median&quot;), median, na.rm = TRUE)`.
+## ℹ In group 1: `state = &quot;Kentucy&quot;`.
+## Caused by warning:
+## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+## Supply arguments directly to `.fns` through an anonymous function instead.
+## 
+##   # Previously
+##   across(a:b, mean, na.rm = TRUE)
+## 
+##   # Now
+##   across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+<pre class="r"><code>print(state_medians)</code></pre>
+<pre><code>## # A tibble: 52 × 7
+##    state       median_pfbs median_pf_hp_a median_pf_hx_s median_pfna median_pfoa
+##    &lt;chr&gt;             &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Kentucy            63.6           7.07           21.2        14.1        14.1
+##  2 alabama            63.6           7.07           21.2        14.1        14.1
+##  3 alaska             63.6           7.07           21.2        14.1        14.1
+##  4 arizona            63.6           7.07           21.2        14.1        14.1
+##  5 arkansas           63.6           7.07           21.2        14.1        14.1
+##  6 california         63.6           7.07           21.2        14.1        14.1
+##  7 colorado           63.6           7.07           21.2        14.1        14.1
+##  8 connecticut        63.6           7.07           21.2        14.1        14.1
+##  9 delaware           63.6           7.07           21.2        14.1        14.1
+## 10 district o…        63.6           7.07           21.2        14.1        14.1
+## # ℹ 42 more rows
+## # ℹ 1 more variable: median_pfos &lt;dbl&gt;</code></pre>
+<p>Method 2 - binerization If one county has detected/median, call this
+state as detected/exposed A state can only be called non detected when
+all counties are non-detected</p>
+<pre class="r"><code>state_detection_status =
+  merged_df_1 %&gt;%
+  group_by(state) %&gt;%
+  summarise(detection_status = ifelse(any(detected == &quot;Yes&quot;), &quot;Detected&quot;, &quot;Not Detected&quot;))
+
+# View the result
+print(state_detection_status)</code></pre>
+<pre><code>## # A tibble: 52 × 2
+##    state                detection_status
+##    &lt;chr&gt;                &lt;chr&gt;           
+##  1 Kentucy              Detected        
+##  2 alabama              Detected        
+##  3 alaska               Not Detected    
+##  4 arizona              Detected        
+##  5 arkansas             Not Detected    
+##  6 california           Detected        
+##  7 colorado             Detected        
+##  8 connecticut          Not Detected    
+##  9 delaware             Detected        
+## 10 district of columbia Not Detected    
+## # ℹ 42 more rows</code></pre>
+<pre class="r"><code>table(state_detection_status$detection_status, useNA= &quot;always&quot; )</code></pre>
+<pre><code>## 
+##     Detected Not Detected         &lt;NA&gt; 
+##           33           19            0</code></pre>
+<p>Method 3 - categorization using threshold Create a new column for
+each state by calculating the number of counties that are detected Find
+the cut point</p>
+<pre class="r"><code>#First determine the counts
+state_detection_counts =
+  merged_df_1 %&gt;%
+  group_by(state) %&gt;%
+  summarise(
+    yes_detected = sum(detected == &quot;Yes&quot;),
+    no_not_detected = sum(detected == &quot;No&quot;),
+    total_samples = n()
+  )
+
+# calculate the proportion of detection
+state_detection_counts_proportion =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples
+  )</code></pre>
+<p>Try out different thresholds</p>
+<pre class="r"><code># 75%
+state_detection_method3_seventyfive =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion &gt; 0.75 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.75 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+state_detection_method3_seventyfive </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_seventyfive $pollution_category, useNA = &quot;always&quot;)</code></pre>
+<pre><code>## 
+## Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                  33                  19                   0</code></pre>
+<pre class="r"><code># 60%
+state_detection_method3_sixty =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion &gt; 0.60 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.60 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+state_detection_method3_sixty </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_sixty$pollution_category, useNA = &quot;always&quot;)</code></pre>
+<pre><code>## 
+##     Highly Polluted Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                   1                  32                  19                   0</code></pre>
+<pre class="r"><code># 90%
+state_detection_method3_ninty =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category_ninty = case_when(
+      detection_proportion &gt; 0.90 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.90 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+state_detection_method3_ninty </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category_ninty &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_ninty $pollution_category_ninty, useNA = &quot;always&quot;)</code></pre>
+<pre><code>## 
+## Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                  33                  19                   0</code></pre>
+<pre class="r"><code># 80%
+state_detection_method3_eighty =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion &gt; 0.80 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.80 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+state_detection_method3_eighty </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_eighty $pollution_category, useNA = &quot;always&quot;) </code></pre>
+<pre><code>## 
+## Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                  33                  19                   0</code></pre>
+<pre class="r"><code># summary
+summary(state_detection_method3_sixty$detection_proportion)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.00000 0.00000 0.05196 0.10093 0.13426 0.66667</code></pre>
+<pre class="r"><code># 50% threshold
+state_detection_method3_fifty =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion &gt; 0.50 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.50 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+state_detection_method3_fifty </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_fifty $pollution_category, useNA = &quot;always&quot;) </code></pre>
+<pre><code>## 
+##     Highly Polluted Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                   1                  32                  19                   0</code></pre>
+<pre class="r"><code># 30% threshold - KEEP IT AT THIS THRESHOLD
+state_detection_method3_thirty =
+  state_detection_counts %&gt;%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion &gt; 0.30 ~ &quot;Highly Polluted&quot;,
+      detection_proportion &gt; 0 &amp; detection_proportion &lt;= 0.30 ~ &quot;Moderately Polluted&quot;,
+      detection_proportion == 0 ~ &quot;Not Polluted at All&quot;
+    )
+  )
+
+# view results
+state_detection_method3_thirty </code></pre>
+<pre><code>## # A tibble: 52 × 6
+##    state         yes_detected no_not_detected total_samples detection_proportion
+##    &lt;chr&gt;                &lt;int&gt;           &lt;int&gt;         &lt;int&gt;                &lt;dbl&gt;
+##  1 Kentucy                 14              94           108               0.130 
+##  2 alabama                 19              37            56               0.339 
+##  3 alaska                   0               5             5               0     
+##  4 arizona                  4               9            13               0.308 
+##  5 arkansas                 0              42            42               0     
+##  6 california              12              36            48               0.25  
+##  7 colorado                 2              32            34               0.0588
+##  8 connecticut              0               8             8               0     
+##  9 delaware                 1               2             3               0.333 
+## 10 district of …            0               1             1               0     
+## # ℹ 42 more rows
+## # ℹ 1 more variable: pollution_category &lt;chr&gt;</code></pre>
+<pre class="r"><code>table (state_detection_method3_thirty $pollution_category, useNA = &quot;always&quot;) </code></pre>
+<pre><code>## 
+##     Highly Polluted Moderately Polluted Not Polluted at All                &lt;NA&gt; 
+##                   7                  26                  19                   0</code></pre>
+<p>We ultimately chose a 30% threshold to ensure that each category
+includes at least five states, meeting the recommended minimum for
+categorical analysis.</p>
+</div>
+<div id="mapping" class="section level2">
+<h2>Mapping</h2>
+<div id="map-1-pfas-pollution-level-across-u.s.-states"
+class="section level5">
+<h5>Map 1 PFAS Pollution Level Across U.S. States</h5>
+<pre class="r"><code>library(maps)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;maps&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map</code></pre>
+<pre class="r"><code>library(leaflet)
+library(ggplot2)
+library(dplyr)
+library(sf)</code></pre>
+<pre><code>## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
+<pre class="r"><code># Create a PFAS pollution level map
+# Load U.S. state map data using sf package
+us_states &lt;- st_as_sf(maps::map(&quot;state&quot;, plot = FALSE, fill = TRUE))
+
+# clean the &quot;state_detection_method3_thirty&quot; dataset
+state_detection_method3_thirty &lt;- state_detection_method3_thirty %&gt;%
+  mutate(state = case_when(
+    state == &quot;new_hampshire&quot; ~ &quot;new hampshire&quot;,
+    state == &quot;new_jersey&quot; ~ &quot;new jersey&quot;,
+    state == &quot;new_mexico&quot; ~ &quot;new mexico&quot;,
+    state == &quot;new_york&quot; ~ &quot;new york&quot;,
+    state == &quot;north_carolina&quot; ~ &quot;north carolina&quot;,
+    state == &quot;north_dakota&quot; ~ &quot;north dakota&quot;,
+    state == &quot;rhode_island&quot; ~ &quot;rhode island&quot;,
+    state == &quot;south_carolina&quot; ~ &quot;south carolina&quot;,
+    state == &quot;south_dakota&quot; ~ &quot;south dakota&quot;,
+    state == &quot;west_virginia&quot; ~ &quot;west virginia&quot;,
+    TRUE ~ state  # Keep the original name if no change is needed
+  ))
+
+# Merge state map data with pollution data
+state_detection_map &lt;- us_states %&gt;%
+  left_join(state_detection_method3_thirty, by = c(&quot;ID&quot; = &quot;state&quot;))</code></pre>
+<pre class="r"><code>ggplot(data = state_detection_map) +
+  geom_sf(aes(fill = pollution_category)) +
+  scale_fill_manual(values = c(&quot;Highly Polluted&quot; = &quot;red&quot;, &quot;Moderately Polluted&quot; = &quot;yellow&quot;, &quot;Not Polluted at All&quot; = &quot;green&quot;), na.value = &quot;grey&quot;) +
+  labs(
+    title = &quot;PFAS Pollution Levels Across U.S. States&quot;,
+    fill = &quot;Pollution Category&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="pfas_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="map-2-cancer-incidence-rates-across-u.s.-states"
+class="section level5">
+<h5>Map 2 Cancer Incidence Rates Across U.S. States</h5>
+<pre class="r"><code># Create a cancer incidence gradient map
+us_states &lt;- st_as_sf(maps::map(&quot;state&quot;, plot = FALSE, fill = TRUE))
+
+merged_df_1 &lt;- merged_df_1 %&gt;%
+  mutate(state = case_when(
+    state == &quot;new hampshire&quot; ~ &quot;new hampshire&quot;,
+    state == &quot;new jersey&quot; ~ &quot;new jersey&quot;,
+    state == &quot;new mexico&quot; ~ &quot;new mexico&quot;,
+    state == &quot;new york&quot; ~ &quot;new york&quot;,
+    state == &quot;north carolina&quot; ~ &quot;north carolina&quot;,
+    state == &quot;north dakota&quot; ~ &quot;north dakota&quot;,
+    state == &quot;rhode island&quot; ~ &quot;rhode island&quot;,
+    state == &quot;south carolina&quot; ~ &quot;south carolina&quot;,
+    state == &quot;south dakota&quot; ~ &quot;south dakota&quot;,
+    state == &quot;west virginia&quot; ~ &quot;west virginia&quot;,
+    TRUE ~ state  # Keep other states as they are
+  )) %&gt;%
+  mutate(ir = as.numeric(trimws(ir)))  # Convert &#39;ir&#39; to numeric</code></pre>
+<pre><code>## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `ir = as.numeric(trimws(ir))`.
+## Caused by warning:
+## ! NAs introduced by coercion</code></pre>
+<pre class="r"><code>if(any(is.na(merged_df_1$ir))) {
+  warning(&quot;Some values in the &#39;ir&#39; column could not be converted to numeric and were set to NA.&quot;)
+}</code></pre>
+<pre><code>## Warning: Some values in the &#39;ir&#39; column could not be converted to numeric and
+## were set to NA.</code></pre>
+<pre class="r"><code>state_detection_map &lt;- us_states %&gt;%
+  full_join(merged_df_1, by = c(&quot;ID&quot; = &quot;state&quot;))
+
+
+ggplot(data = state_detection_map) +
+  geom_sf(aes(fill = ir), color = &quot;white&quot;) +
+  scale_fill_gradient(low = &quot;lightblue&quot;, high = &quot;darkblue&quot;, na.value = &quot;grey&quot;, name = &quot;Cancer Incidence Rate&quot;) +
+  labs(
+    title = &quot;Cancer Incidence Rates Across U.S. States&quot;,
+    fill = &quot;Incidence Rate&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="pfas_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

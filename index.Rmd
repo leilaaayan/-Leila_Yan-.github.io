@@ -6,12 +6,33 @@ output:
     toc_float: true
 ---
 
-![](images/me.jpg)
+![](images/me_resized.jpg)
+
+
+
+
 Hello, and welcome! I’m Leila Yan, a second-year student at Columbia University’s Mailman School of Public Health, majoring in epidemiology and biostatistics. My passion lies in understanding chronic diseases and advancing clinical epidemiology, with a commitment to promoting health equity through data-driven insights and addressing research gaps. Through my coursework, I’ve developed expertise in using SAS, R, and Python to manipulate and analyze complex datasets.
 
 On this website, you’ll find my background, resume, and resources related to my work. Whether you’re a colleague, student, or simply curious about public health, I hope this site provides valuable insights and fosters meaningful connections.
 
 Feel free to explore, and don’t hesitate to reach out if you’d like to connect or learn more about my work!
+
+```{r, echo=FALSE}
+# Resize my image
+if (!requireNamespace("magick", quietly = TRUE)) {
+  install.packages("magick")
+}
+
+library(magick)
+
+image_path <- "images/me.jpg"
+image <- image_read(image_path)
+
+resized_image <- image_resize(image, "50%")
+
+image_write(resized_image, path = "images/me_resized.jpg")
+```
+
 
 ## My resume
 [My Resume](resume.html)

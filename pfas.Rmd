@@ -7,7 +7,7 @@ output:
 ---
 In this R Markdown report, we analyze and compare three methods for quantifying Per- and Polyfluoroalkyl Substances (PFAS) levels across the 52 U.S. states. Our objective is to visualize the relationship between cancer incidence and varying pollution levels, enabling a clearer understanding of the geographic distribution and potential health impacts of PFAS exposure.
 
-
+## Coding
 Read in the three datasets
 ```{r}
 library(tidyverse)
@@ -29,3 +29,269 @@ pfas_df= read_csv ("pfas_county_073124.csv") %>%
   mutate(state_zipcode= substr(county, 1, 2))
 pfas_df
 ```
+
+
+Merge the three datasets
+```{r}
+# left join keeps everything in the dataset that comes first 
+merged_df_1 = 
+  left_join(pfas_df, fifitystates_df,  by = "state_zipcode")
+
+#check the new dataset's variables‘ names
+names(merged_df_1)
+
+#check how many distinct datasets
+n_distinct(merged_df_1$state)
+```
+
+Method 1: Take the median of all the variables that start with a “median" prefix, eg. median_pfbs
+Group by state code
+Combine all the county codes for each state and then calculate the median
+
+```{r}
+state_medians =
+  merged_df_1 %>%
+  group_by(state) %>%
+  summarise(across(starts_with("median"), median, na.rm = TRUE))
+
+print(state_medians)
+```
+
+Method 2 - binerization
+If one county has detected/median, call this state as detected/exposed
+A state can only be called non detected when all counties are non-detected
+
+```{r}
+state_detection_status =
+  merged_df_1 %>%
+  group_by(state) %>%
+  summarise(detection_status = ifelse(any(detected == "Yes"), "Detected", "Not Detected"))
+
+# View the result
+print(state_detection_status)
+
+table(state_detection_status$detection_status, useNA= "always" )
+```
+
+Method 3 - categorization using threshold
+Create a new column for each state by calculating the number of counties that are detected
+Find the cut point
+```{r}
+#First determine the counts
+state_detection_counts =
+  merged_df_1 %>%
+  group_by(state) %>%
+  summarise(
+    yes_detected = sum(detected == "Yes"),
+    no_not_detected = sum(detected == "No"),
+    total_samples = n()
+  )
+
+# calculate the proportion of detection
+state_detection_counts_proportion =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples
+  )
+```
+
+Try out different thresholds
+```{r}
+# 75%
+state_detection_method3_seventyfive =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion > 0.75 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.75 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+state_detection_method3_seventyfive 
+table (state_detection_method3_seventyfive $pollution_category, useNA = "always")
+
+
+# 60%
+state_detection_method3_sixty =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion > 0.60 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.60 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+state_detection_method3_sixty 
+
+table (state_detection_method3_sixty$pollution_category, useNA = "always")
+
+# 90%
+state_detection_method3_ninty =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category_ninty = case_when(
+      detection_proportion > 0.90 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.90 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+state_detection_method3_ninty 
+table (state_detection_method3_ninty $pollution_category_ninty, useNA = "always")
+
+
+# 80%
+state_detection_method3_eighty =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion > 0.80 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.80 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+state_detection_method3_eighty 
+table (state_detection_method3_eighty $pollution_category, useNA = "always") 
+
+# summary
+summary(state_detection_method3_sixty$detection_proportion)
+
+
+# 50% threshold
+state_detection_method3_fifty =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion > 0.50 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.50 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+state_detection_method3_fifty 
+table (state_detection_method3_fifty $pollution_category, useNA = "always") 
+
+
+# 30% threshold - KEEP IT AT THIS THRESHOLD
+state_detection_method3_thirty =
+  state_detection_counts %>%
+  mutate(
+    detection_proportion = yes_detected / total_samples,
+    pollution_category = case_when(
+      detection_proportion > 0.30 ~ "Highly Polluted",
+      detection_proportion > 0 & detection_proportion <= 0.30 ~ "Moderately Polluted",
+      detection_proportion == 0 ~ "Not Polluted at All"
+    )
+  )
+
+# view results
+state_detection_method3_thirty 
+table (state_detection_method3_thirty $pollution_category, useNA = "always") 
+
+```
+
+We ultimately chose a 30% threshold to ensure that each category includes at least five states, meeting the recommended minimum for categorical analysis.
+
+
+## Mapping
+
+##### Map 1 PFAS Pollution Level Across U.S. States
+```{r}
+library(maps)
+library(leaflet)
+library(ggplot2)
+library(dplyr)
+library(sf)
+```
+
+
+```{r}
+# Create a PFAS pollution level map
+# Load U.S. state map data using sf package
+us_states <- st_as_sf(maps::map("state", plot = FALSE, fill = TRUE))
+
+# clean the "state_detection_method3_thirty" dataset
+state_detection_method3_thirty <- state_detection_method3_thirty %>%
+  mutate(state = case_when(
+    state == "new_hampshire" ~ "new hampshire",
+    state == "new_jersey" ~ "new jersey",
+    state == "new_mexico" ~ "new mexico",
+    state == "new_york" ~ "new york",
+    state == "north_carolina" ~ "north carolina",
+    state == "north_dakota" ~ "north dakota",
+    state == "rhode_island" ~ "rhode island",
+    state == "south_carolina" ~ "south carolina",
+    state == "south_dakota" ~ "south dakota",
+    state == "west_virginia" ~ "west virginia",
+    TRUE ~ state  # Keep the original name if no change is needed
+  ))
+
+# Merge state map data with pollution data
+state_detection_map <- us_states %>%
+  left_join(state_detection_method3_thirty, by = c("ID" = "state"))
+```
+
+
+```{r}
+ggplot(data = state_detection_map) +
+  geom_sf(aes(fill = pollution_category)) +
+  scale_fill_manual(values = c("Highly Polluted" = "red", "Moderately Polluted" = "yellow", "Not Polluted at All" = "green"), na.value = "grey") +
+  labs(
+    title = "PFAS Pollution Levels Across U.S. States",
+    fill = "Pollution Category"
+  ) +
+  theme_minimal()
+```
+
+
+
+##### Map 2 Cancer Incidence Rates Across U.S. States
+```{r}
+# Create a cancer incidence gradient map
+us_states <- st_as_sf(maps::map("state", plot = FALSE, fill = TRUE))
+
+merged_df_1 <- merged_df_1 %>%
+  mutate(state = case_when(
+    state == "new hampshire" ~ "new hampshire",
+    state == "new jersey" ~ "new jersey",
+    state == "new mexico" ~ "new mexico",
+    state == "new york" ~ "new york",
+    state == "north carolina" ~ "north carolina",
+    state == "north dakota" ~ "north dakota",
+    state == "rhode island" ~ "rhode island",
+    state == "south carolina" ~ "south carolina",
+    state == "south dakota" ~ "south dakota",
+    state == "west virginia" ~ "west virginia",
+    TRUE ~ state  # Keep other states as they are
+  )) %>%
+  mutate(ir = as.numeric(trimws(ir)))  # Convert 'ir' to numeric
+
+
+if(any(is.na(merged_df_1$ir))) {
+  warning("Some values in the 'ir' column could not be converted to numeric and were set to NA.")
+}
+
+state_detection_map <- us_states %>%
+  full_join(merged_df_1, by = c("ID" = "state"))
+
+
+ggplot(data = state_detection_map) +
+  geom_sf(aes(fill = ir), color = "white") +
+  scale_fill_gradient(low = "lightblue", high = "darkblue", na.value = "grey", name = "Cancer Incidence Rate") +
+  labs(
+    title = "Cancer Incidence Rates Across U.S. States",
+    fill = "Incidence Rate"
+  ) +
+  theme_minimal()
+```
+
+
+

@@ -5,8 +5,8 @@ navbar:
   right:
     - text: "Resume"
       href: resume.html
-    - text: "Plotly"
-      href: plotly.html
+    - text: "Research and Projects"
+      href: pfas.html
     - icon: fa-envelope fa-lg
       href: mailto:<leilayan86@gmail.com>
     - icon: fa-github fa-lg
@@ -14,3 +14,4 @@ navbar:
 output:
   html_document:
     theme: cerulean
+    
