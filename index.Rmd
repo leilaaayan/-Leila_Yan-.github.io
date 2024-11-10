@@ -43,4 +43,4 @@ image_write(resized_image, path = "images/me_resized.jpg")
 ## Ways to contact me
 * [Github](https://github.com/leilaaayan?tab=repositories)
 * [LinkedIn](https://www.linkedin.com/in/leila-yan-07472823b/)
-* [Email](leilayan86@gmail.com)
+* [Email](mailto:leilayan86@gmail.com)
