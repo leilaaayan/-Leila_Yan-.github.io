@@ -6,8 +6,6 @@ output:
     toc_float: true
 ---
 
-
-# Leila's website
 ![](images/me.jpg)
 Hello, and welcome! I’m Leila Yan, a second-year student at Columbia University’s Mailman School of Public Health, majoring in epidemiology and biostatistics. My passion lies in understanding chronic diseases and advancing clinical epidemiology, with a commitment to promoting health equity through data-driven insights and addressing research gaps. Through my coursework, I’ve developed expertise in using SAS, R, and Python to manipulate and analyze complex datasets.
 
@@ -15,13 +13,13 @@ On this website, you’ll find my background, resume, and resources related to m
 
 Feel free to explore, and don’t hesitate to reach out if you’d like to connect or learn more about my work!
 
-## Link to my resume page
+## My resume
 [My Resume](resume.html)
 
-## Link to plotly
-[Plotly](plotly.html)
+## Research and projects
+[PFAS and Cancer Incidence Across the U.S. States](pfas.html)
 
-## Ways to contact me:
+## Ways to contact me
 * [Github](https://github.com/leilaaayan?tab=repositories)
 * [LinkedIn](https://www.linkedin.com/in/leila-yan-07472823b/)
 * [Email](leilayan86@gmail.com)

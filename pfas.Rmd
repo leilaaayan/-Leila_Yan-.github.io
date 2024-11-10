@@ -1,0 +1,31 @@
+---
+title: "PFAS and Cancer Incidence"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+In this R Markdown report, we analyze and compare three methods for quantifying Per- and Polyfluoroalkyl Substances (PFAS) levels across the 52 U.S. states. Our objective is to visualize the relationship between cancer incidence and varying pollution levels, enabling a clearer understanding of the geographic distribution and potential health impacts of PFAS exposure.
+
+
+Read in the three datasets
+```{r}
+library(tidyverse)
+library(readxl)
+
+# US states cancer incidence dataset
+fifitystates_df = read_excel("Excel_50 states.xlsx") %>%
+  janitor::clean_names()
+fifitystates_df
+
+# US zipcode dataset
+zipcode_df = read_excel ("US_FIPS_Codes.xls") %>%
+  janitor::clean_names()
+zipcode_df
+
+# PFAS level dataset
+pfas_df= read_csv ("pfas_county_073124.csv") %>%
+  janitor::clean_names() %>%
+  mutate(state_zipcode= substr(county, 1, 2))
+pfas_df
+```
