@@ -34,6 +34,7 @@ image_write(resized_image, path = "images/me_resized.jpg")
 ```
 
 
+
 ## My resume
 [My Resume](resume.html)
 
