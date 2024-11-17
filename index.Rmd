@@ -17,7 +17,7 @@ On this website, you’ll find my background, resume, and resources related to m
 
 Feel free to explore, and don’t hesitate to reach out if you’d like to connect or learn more about my work!
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Resize my image
 if (!requireNamespace("magick", quietly = TRUE)) {
   install.packages("magick")
