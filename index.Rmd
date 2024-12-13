@@ -39,7 +39,8 @@ image_write(resized_image, path = "images/me_resized.jpg")
 [My Resume](resume.html)
 
 ## Research and projects
-[PFAS and Cancer Incidence Across the U.S. States](pfas.html)
+* [PFAS and Cancer Incidence Across the U.S. States](pfas.html)
+* [HIV in NYC by Neighborhood and Ethnicity](https://leilaaayan.github.io/p8105_final_project/)
 
 ## Ways to contact me
 * [Github](https://github.com/leilaaayan?tab=repositories)
